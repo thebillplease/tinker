@@ -1,3 +1,4 @@
+ <?php
   try
   {
     //open the database
@@ -5,7 +6,7 @@
 
     //create the database
     $db->exec("CREATE TABLE Uploads (Id INTEGER PRIMARY KEY, modifiedDate INTEGER, fileName TEXT UNIQUE, sent INTEGER)");    
-	$directory = dirname(__FILE__) . '/Cam Upload/';
+	$directory = dirname(__FILE__) . '/folder/';
     $filenames = array();
     $files = array();
     $iterator = new DirectoryIterator($directory);
@@ -23,14 +24,10 @@
             	$files[] = $x_value;
             		}
             }
-            
-    
-    //print_r($filenames);
-    
-    
+               
 // email fields: to, from, subject, and so on
-$to = "billplease@gmail.com";
-$from = "billplease@gmail.com"; 
+$to = " ";
+$from = " "; 
 $subject =" "; 
 $message = " ";
 $headers = "From: $from";
@@ -61,31 +58,10 @@ for($x=0;$x<count($files);$x++){
 $ok = @mail($to, $subject, $message, $headers); 
 if ($ok) { 
 	echo "<p>mail sent to $to!</p>"; 
-	
 	$db->exec("UPDATE Uploads (sent) VALUES (1) WHERE sent = $files;");
 } else { 
 	echo "<p>mail could not be sent!</p>"; 
 } 
-/*
-if($row['sent'] == 0){
-  //send email
-
-
-// Print the db table  	
-  } 
-   */ 
-    print "<table border=1>";
-    print "<tr><td>Id</td><td>Date</td><td>Name</td><td>Sent Status</td></tr>";
-    $result = $db->query('SELECT * FROM Uploads');
-    foreach($result as $row)
-    {
-      print "<tr><td>".$row['Id']."</td>";
-      print "<td>".$row['modifiedDate']."</td>";
-      print "<td>".$row['fileName']."</td>";
-      print "<td>".$row['sent']."</td></tr>";
-    }
-    print "</table>";
-
     // close the database connection
     $db = NULL;
   
